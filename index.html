@@ -8,323 +8,520 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #F4F1EC;
+  --bg: #F7F5F1;
   --surface: #FFFFFF;
-  --text: #2A2A2A;
-  --text-sub: #7A7A7A;
-  --text-muted: #ABABAB;
-  --primary: #2D6E8F;
-  --primary-deep: #1B4F6B;
-  --accent: #E8913A;
-  --accent-warm: #D4783A;
-  --border: #E5E0D8;
-  --shadow: 0 2px 12px rgba(0,0,0,0.06);
-  --shadow-hover: 0 8px 30px rgba(0,0,0,0.10);
-  --radius: 16px;
-  --g1: #D94F4F; --g1b: #FDF0F0; --g1s: #FAE0E0;
-  --g2: #D4783A; --g2b: #FDF4EC; --g2s: #F8E4D0;
-  --g3: #B89A1C; --g3b: #FDFAEB; --g3s: #F5EEC4;
-  --g4: #2D7ED4; --g4b: #EDF4FD; --g4s: #D4E6F9;
-  --g5: #1E9EBF; --g5b: #EBF7FB; --g5s: #CCF0F7;
-  --g6: #6D44C4; --g6b: #F2EDFD; --g6s: #E0D5F7;
+  --surface-glass: rgba(255,255,255,0.72);
+  --text: #1A1A1A;
+  --text-sub: #6B6B6B;
+  --text-muted: #A0A0A0;
+  --primary: #2563EB;
+  --primary-soft: #DBEAFE;
+  --accent: #F59E0B;
+  --accent-soft: #FEF3C7;
+  --border: #E8E4DE;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow: 0 4px 16px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+  --radius: 20px;
+  --radius-sm: 14px;
+  --g1: #EF4444; --g1b: #FEF2F2; --g1t: #B91C1C;
+  --g2: #F97316; --g2b: #FFF7ED; --g2t: #C2410C;
+  --g3: #EAB308; --g3b: #FEFCE8; --g3t: #A16207;
+  --g4: #3B82F6; --g4b: #EFF6FF; --g4t: #1D4ED8;
+  --g5: #06B6D4; --g5b: #ECFEFF; --g5t: #0E7490;
+  --g6: #8B5CF6; --g6b: #F5F3FF; --g6t: #6D28D9;
 }
+
 * { margin:0; padding:0; box-sizing:border-box; }
+
 body {
-  font-family: 'Noto Sans KR', sans-serif;
+  font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg);
   color: var(--text);
   min-height: 100vh;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
+
+/* ── 헤더 ── */
 .header {
-  background: linear-gradient(135deg, #2D6E8F 0%, #1B4F6B 50%, #1A3D52 100%);
-  padding: 0;
+  background: linear-gradient(160deg, #1E3A5F 0%, #2563EB 50%, #3B82F6 100%);
   position: relative;
   overflow: hidden;
 }
+
 .header::before {
   content: '';
   position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 20% 50%, rgba(255,255,255,0.08) 0%, transparent 60%),
-              radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 50%);
+  background:
+    radial-gradient(ellipse 600px 400px at 10% 80%, rgba(255,255,255,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 300px at 90% 20%, rgba(255,255,255,0.05) 0%, transparent 60%);
 }
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0; right: 0;
+  height: 40px;
+  background: var(--bg);
+  border-radius: 40px 40px 0 0;
+}
+
 .header-inner {
-  max-width: 960px;
+  max-width: 920px;
   margin: 0 auto;
-  padding: 36px 28px 32px;
+  padding: 44px 32px 56px;
   position: relative;
   z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
-.school-label {
-  font-size: 0.72rem;
+
+.header-left {}
+
+.school-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 100px;
+  padding: 5px 14px;
+  font-size: 0.7rem;
   font-weight: 500;
-  color: rgba(255,255,255,0.5);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  margin-bottom: 6px;
+  color: rgba(255,255,255,0.8);
+  letter-spacing: 0.04em;
+  margin-bottom: 16px;
 }
+
+.school-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  background: #34D399;
+  border-radius: 50%;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
 .school-name {
   font-family: 'Gowun Batang', serif;
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 700;
   color: white;
   letter-spacing: 0.02em;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 }
+
 .school-sub {
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 300;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.02em;
 }
-.header-meta {
-  position: absolute;
-  right: 28px;
-  bottom: 32px;
+
+.header-right {
   text-align: right;
+  padding-bottom: 4px;
 }
+
 .header-date {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   color: rgba(255,255,255,0.5);
   font-weight: 400;
+  font-variant-numeric: tabular-nums;
 }
+
+/* ── 메인 ── */
 .main {
-  max-width: 960px;
+  max-width: 920px;
   margin: 0 auto;
-  padding: 28px 28px 60px;
+  padding: 8px 32px 60px;
 }
-.section {
+
+/* ── 공지 ── */
+.notice {
+  background: var(--accent-soft);
+  border: 1px solid #FDE68A;
+  border-radius: var(--radius-sm);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 32px;
+  font-size: 0.8rem;
+  color: #92400E;
+  line-height: 1.6;
+  animation: fadeSlideIn 0.5s ease-out 0.2s both;
 }
+
+.notice-icon { font-size: 1rem; flex-shrink: 0; }
+.notice-text strong { font-weight: 600; color: #78350F; }
+
+/* ── 섹션 ── */
+.section { margin-bottom: 36px; }
+
 .section-header {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 14px;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding: 0 4px;
 }
+
 .section-icon {
-  width: 32px; height: 32px;
-  border-radius: 10px;
+  width: 36px; height: 36px;
+  border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 0.95rem;
+  font-size: 1rem;
   flex-shrink: 0;
 }
-.section-icon.timetable { background: var(--primary); color: white; }
-.section-icon.util { background: var(--accent); color: white; }
+
+.section-icon.timetable { background: var(--primary-soft); color: var(--primary); }
+.section-icon.util { background: var(--accent-soft); color: #D97706; }
+
+.section-title-group { flex: 1; }
+
 .section-title {
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 700;
   color: var(--text);
+  line-height: 1.3;
 }
+
 .section-desc {
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
-  margin-left: auto;
+  margin-top: 1px;
 }
+
+/* ── 학년 카드 그리드 ── */
 .grade-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
 }
+
 .grade-card {
   background: var(--surface);
   border-radius: var(--radius);
-  padding: 22px 20px;
+  padding: 24px 22px 20px;
   text-decoration: none;
   color: var(--text);
-  box-shadow: var(--shadow);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  border: 1.5px solid transparent;
+  border: 1px solid rgba(0,0,0,0.04);
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeSlideIn 0.45s ease-out forwards;
 }
+
+@keyframes fadeSlideIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.grade-card:nth-child(1) { animation-delay: 0.05s; }
+.grade-card:nth-child(2) { animation-delay: 0.1s; }
+.grade-card:nth-child(3) { animation-delay: 0.15s; }
+.grade-card:nth-child(4) { animation-delay: 0.2s; }
+.grade-card:nth-child(5) { animation-delay: 0.25s; }
+.grade-card:nth-child(6) { animation-delay: 0.3s; }
+
 .grade-card::before {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 4px;
-  border-radius: var(--radius) var(--radius) 0 0;
+  height: 3px;
+  transition: height 0.3s ease;
 }
+
 .grade-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-hover);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
 }
+
+.grade-card:hover::before { height: 5px; }
+
+.grade-card:active { transform: translateY(-1px); }
+
+/* 학년별 컬러 */
 .grade-card[data-g="1"]::before { background: var(--g1); }
-.grade-card[data-g="1"]:hover { border-color: var(--g1s); }
+.grade-card[data-g="1"] .grade-num { color: var(--g1); }
+.grade-card[data-g="1"] .grade-badge { background: var(--g1b); color: var(--g1t); }
+
 .grade-card[data-g="2"]::before { background: var(--g2); }
-.grade-card[data-g="2"]:hover { border-color: var(--g2s); }
+.grade-card[data-g="2"] .grade-num { color: var(--g2); }
+.grade-card[data-g="2"] .grade-badge { background: var(--g2b); color: var(--g2t); }
+
 .grade-card[data-g="3"]::before { background: var(--g3); }
-.grade-card[data-g="3"]:hover { border-color: var(--g3s); }
+.grade-card[data-g="3"] .grade-num { color: var(--g3); }
+.grade-card[data-g="3"] .grade-badge { background: var(--g3b); color: var(--g3t); }
+
 .grade-card[data-g="4"]::before { background: var(--g4); }
-.grade-card[data-g="4"]:hover { border-color: var(--g4s); }
+.grade-card[data-g="4"] .grade-num { color: var(--g4); }
+.grade-card[data-g="4"] .grade-badge { background: var(--g4b); color: var(--g4t); }
+
 .grade-card[data-g="5"]::before { background: var(--g5); }
-.grade-card[data-g="5"]:hover { border-color: var(--g5s); }
+.grade-card[data-g="5"] .grade-num { color: var(--g5); }
+.grade-card[data-g="5"] .grade-badge { background: var(--g5b); color: var(--g5t); }
+
 .grade-card[data-g="6"]::before { background: var(--g6); }
-.grade-card[data-g="6"]:hover { border-color: var(--g6s); }
+.grade-card[data-g="6"] .grade-num { color: var(--g6); }
+.grade-card[data-g="6"] .grade-badge { background: var(--g6b); color: var(--g6t); }
+
+.grade-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
 .grade-num {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 900;
   line-height: 1;
-  margin-bottom: 2px;
 }
-.grade-card[data-g="1"] .grade-num { color: var(--g1); }
-.grade-card[data-g="2"] .grade-num { color: var(--g2); }
-.grade-card[data-g="3"] .grade-num { color: var(--g3); }
-.grade-card[data-g="4"] .grade-num { color: var(--g4); }
-.grade-card[data-g="5"] .grade-num { color: var(--g5); }
-.grade-card[data-g="6"] .grade-num { color: var(--g6); }
+
+.grade-badge {
+  font-size: 0.62rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 100px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
 .grade-label {
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 600;
   color: var(--text);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
+
 .grade-meta {
   font-size: 0.72rem;
   color: var(--text-muted);
   margin-top: auto;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
 }
+
 .grade-meta .dot {
-  width: 4px; height: 4px;
+  width: 3px; height: 3px;
   background: var(--border);
   border-radius: 50%;
 }
+
 .open-icon {
   margin-left: auto;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
-  transition: transform 0.2s, color 0.2s;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: transparent;
 }
+
 .grade-card:hover .open-icon {
   transform: translateX(3px);
   color: var(--primary);
+  background: var(--primary-soft);
 }
+
+/* ── 유틸 카드 ── */
 .util-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 14px;
 }
+
 .util-card {
   background: var(--surface);
   border-radius: var(--radius);
-  padding: 20px;
+  padding: 22px 20px;
   text-decoration: none;
   color: var(--text);
-  box-shadow: var(--shadow);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   align-items: center;
   gap: 16px;
-  border: 1.5px solid transparent;
+  border: 1px solid rgba(0,0,0,0.04);
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeSlideIn 0.45s ease-out 0.35s forwards;
 }
+
+.util-card:nth-child(2) { animation-delay: 0.4s; }
+
 .util-card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--border);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
 }
+
+.util-card:active { transform: translateY(-1px); }
+
 .util-icon {
-  width: 48px; height: 48px;
-  border-radius: 14px;
+  width: 50px; height: 50px;
+  border-radius: 16px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   flex-shrink: 0;
+  transition: transform 0.3s ease;
 }
-.util-icon.calendar { background: #EDF4FD; color: var(--g4); }
-.util-icon.substitute { background: #FDF0F0; color: var(--g1); }
-.util-info { flex: 1; }
+
+.util-card:hover .util-icon { transform: scale(1.08); }
+
+.util-icon.calendar { background: #EFF6FF; color: var(--g4); }
+.util-icon.substitute { background: #FEF2F2; color: var(--g1); }
+
+.util-info { flex: 1; min-width: 0; }
+
 .util-title {
   font-size: 0.92rem;
   font-weight: 700;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
+
 .util-desc {
-  font-size: 0.75rem;
+  font-size: 0.73rem;
   color: var(--text-sub);
   line-height: 1.5;
 }
+
 .util-card .open-icon { flex-shrink: 0; }
-.notice {
-  background: var(--surface);
-  border: 1px dashed var(--border);
-  border-radius: var(--radius);
-  padding: 18px 22px;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  margin-bottom: 32px;
+.util-card:hover .open-icon {
+  transform: translateX(3px);
+  color: var(--primary);
+  background: var(--primary-soft);
 }
-.notice-icon {
-  font-size: 1.1rem;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-.notice-text {
-  font-size: 0.82rem;
-  color: var(--text-sub);
-  line-height: 1.7;
-}
-.notice-text strong { color: var(--text); font-weight: 600; }
-.footer {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 28px 40px;
-  text-align: center;
-}
-.footer-text {
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  line-height: 1.8;
-}
-.footer-divider {
-  width: 40px;
-  height: 1px;
-  background: var(--border);
-  margin: 0 auto 12px;
-}
-@media (max-width: 640px) {
-  .header-inner { padding: 28px 20px 24px; }
-  .school-name { font-size: 1.4rem; }
-  .header-meta { position: static; text-align: left; margin-top: 8px; }
-  .main { padding: 20px 16px 40px; }
-  .grade-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .grade-card { padding: 16px 14px; }
-  .grade-num { font-size: 1.6rem; }
-  .util-grid { grid-template-columns: 1fr; gap: 10px; }
-  .notice { flex-direction: column; gap: 6px; padding: 14px 16px; }
-}
-@media (max-width: 380px) {
-  .grade-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-}
+
+/* ── 미설정 상태 ── */
 .grade-card.not-set, .util-card.not-set {
-  opacity: 0.5;
+  opacity: 0.45;
   pointer-events: none;
+  filter: grayscale(0.3);
 }
+
 .grade-card.not-set::after, .util-card.not-set::after {
-  content: '링크 미설정';
+  content: '준비 중';
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.92);
+  padding: 3px 14px;
+  border-radius: 100px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  border: 1px solid var(--border);
+}
+
+.util-card.not-set { position: relative; }
+
+/* ── 푸터 ── */
+.footer {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 32px 48px;
+  text-align: center;
+}
+
+.footer-divider {
+  width: 48px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 0 auto 16px;
+  border-radius: 1px;
+}
+
+.footer-text {
   font-size: 0.7rem;
   color: var(--text-muted);
-  background: rgba(255,255,255,0.9);
-  padding: 2px 10px;
-  border-radius: 8px;
+  line-height: 1.9;
 }
-.util-card.not-set { position: relative; }
+
+/* ── 반응형 ── */
+@media (max-width: 640px) {
+  .header-inner {
+    padding: 32px 20px 48px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .header-right { text-align: left; }
+  .school-name { font-size: 1.6rem; }
+  .main { padding: 8px 16px 40px; }
+  .grade-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .grade-card { padding: 18px 16px 16px; }
+  .grade-num { font-size: 1.7rem; }
+  .util-grid { grid-template-columns: 1fr; gap: 10px; }
+  .notice { flex-direction: column; gap: 6px; padding: 12px 16px; }
+}
+
+@media (max-width: 380px) {
+  .grade-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+}
+
+/* ── 다크모드 지원 (선택) ── */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0F1117;
+    --surface: #1A1D27;
+    --surface-glass: rgba(26,29,39,0.8);
+    --text: #E8E8EC;
+    --text-sub: #9CA3AF;
+    --text-muted: #6B7280;
+    --border: #2D3140;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.2);
+    --shadow: 0 4px 16px rgba(0,0,0,0.2);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.3);
+    --primary-soft: rgba(37,99,235,0.15);
+    --accent-soft: rgba(245,158,11,0.12);
+    --g1b: rgba(239,68,68,0.1); --g1t: #FCA5A5;
+    --g2b: rgba(249,115,22,0.1); --g2t: #FDBA74;
+    --g3b: rgba(234,179,8,0.1); --g3t: #FDE047;
+    --g4b: rgba(59,130,246,0.1); --g4t: #93C5FD;
+    --g5b: rgba(6,182,212,0.1); --g5t: #67E8F9;
+    --g6b: rgba(139,92,246,0.1); --g6t: #C4B5FD;
+  }
+  .header { background: linear-gradient(160deg, #0F172A 0%, #1E3A5F 50%, #1E40AF 100%); }
+  .header::after { background: var(--bg); }
+  .notice { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.2); color: #FDE68A; }
+  .notice-text strong { color: #FDE047; }
+  .grade-card.not-set::after, .util-card.not-set::after {
+    background: rgba(26,29,39,0.92);
+    border-color: var(--border);
+  }
+  .util-icon.calendar { background: rgba(59,130,246,0.1); }
+  .util-icon.substitute { background: rgba(239,68,68,0.1); }
+}
 </style>
 </head>
 <body>
 
 <header class="header">
   <div class="header-inner">
-    <div class="school-label">학교 정보 공유</div>
-    <div class="school-name">남부초등학교</div>
-    <div class="school-sub">주간 교과시간표 · 학교일정 · 보결현황</div>
-    <div class="header-meta">
+    <div class="header-left">
+      <div class="school-badge">학교 정보 공유 시스템</div>
+      <div class="school-name">남부초등학교</div>
+      <div class="school-sub">주간 교과시간표 · 학교일정 · 보결현황</div>
+    </div>
+    <div class="header-right">
       <div class="header-date" id="today-date"></div>
     </div>
   </div>
@@ -336,15 +533,16 @@ body {
     <span class="notice-icon">⚙️</span>
     <div class="notice-text">
       <strong>관리자 안내:</strong> 아래 <code>LINKS</code> 객체에 구글 스프레드시트 공유 링크를 붙여넣으면 카드가 활성화됩니다.
-      파일 하단의 스크립트 영역에서 수정하세요.
     </div>
   </div>
 
   <section class="section">
     <div class="section-header">
       <div class="section-icon timetable">📋</div>
-      <div class="section-title">주간 교과시간표</div>
-      <div class="section-desc">학년별 구글 스프레드시트</div>
+      <div class="section-title-group">
+        <div class="section-title">주간 교과시간표</div>
+        <div class="section-desc">학년별 구글 스프레드시트 바로가기</div>
+      </div>
     </div>
     <div class="grade-grid" id="grade-grid"></div>
   </section>
@@ -352,7 +550,10 @@ body {
   <section class="section">
     <div class="section-header">
       <div class="section-icon util">📌</div>
-      <div class="section-title">학교 운영</div>
+      <div class="section-title-group">
+        <div class="section-title">학교 운영</div>
+        <div class="section-desc">일정 및 보결 안내</div>
+      </div>
     </div>
     <div class="util-grid" id="util-grid"></div>
   </section>
@@ -388,11 +589,13 @@ const GRADES = [
   { g:6, label:'6학년', cls:'2반', per:'6교시' },
 ];
 
+// 오늘 날짜
 const now = new Date();
 const dayNames = ['일','월','화','수','목','금','토'];
-document.getElementById('today-date').textContent = 
+document.getElementById('today-date').textContent =
   `${now.getFullYear()}. ${now.getMonth()+1}. ${now.getDate()}. (${dayNames[now.getDay()]})`;
 
+// 학년 카드 생성
 const gradeGrid = document.getElementById('grade-grid');
 GRADES.forEach(g => {
   const url = LINKS['grade' + g.g];
@@ -403,7 +606,10 @@ GRADES.forEach(g => {
   card.target = url ? '_blank' : '_self';
   card.rel = 'noopener';
   card.innerHTML = `
-    <div class="grade-num">${g.g}</div>
+    <div class="grade-top">
+      <div class="grade-num">${g.g}</div>
+      <div class="grade-badge">${g.per}</div>
+    </div>
     <div class="grade-label">${g.label} 주간시간표</div>
     <div class="grade-meta">
       <span>${g.cls}</span>
@@ -414,6 +620,7 @@ GRADES.forEach(g => {
   gradeGrid.appendChild(card);
 });
 
+// 유틸 카드 생성
 const utilGrid = document.getElementById('util-grid');
 const utils = [
   { key:'calendar', icon:'📅', iconCls:'calendar', title:'학교일정', desc:'월별 행사 · 공휴일 · 평가 일정' },
@@ -436,6 +643,7 @@ utils.forEach(u => {
   utilGrid.appendChild(card);
 });
 
+// 미설정 링크 알림
 const hasEmpty = Object.values(LINKS).some(v => !v);
 if (hasEmpty) {
   document.getElementById('setup-notice').style.display = 'flex';
