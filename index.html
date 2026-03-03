@@ -432,6 +432,107 @@ body {
 
 .util-card.not-set { position: relative; }
 
+/* ── 토스트 알림 ── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--surface);
+  color: var(--text);
+  padding: 14px 24px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  font-size: 0.85rem;
+  font-weight: 500;
+  z-index: 1000;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border);
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
+}
+
+.toast.error {
+  background: #FEE2E2;
+  color: #991B1B;
+  border-color: #FCA5A5;
+}
+
+.toast.success {
+  background: #D1FAE5;
+  color: #065F46;
+  border-color: #6EE7B7;
+}
+
+.toast.warning {
+  background: #FEF3C7;
+  color: #92400E;
+  border-color: #FDE68A;
+}
+
+/* ── 로딩 스피너 ── */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-overlay.show {
+  display: flex;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── 다크모드 토스트/로딩 ── */
+@media (prefers-color-scheme: dark) {
+  .toast.error {
+    background: rgba(239,68,68,0.15);
+    color: #FCA5A5;
+    border-color: rgba(239,68,68,0.3);
+  }
+
+  .toast.success {
+    background: rgba(16,185,129,0.15);
+    color: #6EE7B7;
+    border-color: rgba(16,185,129,0.3);
+  }
+
+  .toast.warning {
+    background: rgba(245,158,11,0.15);
+    color: #FDE047;
+    border-color: rgba(245,158,11,0.3);
+  }
+
+  .loading-overlay {
+    background: rgba(0,0,0,0.6);
+  }
+}
+
 /* ── 푸터 ── */
 .footer {
   max-width: 920px;
@@ -512,68 +613,95 @@ body {
 </head>
 <body>
 
-<header class="header">
+<header class="header" role="banner">
   <div class="header-inner">
     <div class="header-left">
-      <div class="school-badge">학교 정보 공유 시스템</div>
-      <div class="school-name">남부초등학교</div>
+      <div class="school-badge" aria-label="시스템 상태: 운영 중">학교 정보 공유 시스템</div>
+      <h1 class="school-name">남부초등학교</h1>
       <div class="school-sub">주간 교과시간표 · 수석교사 수업</div>
     </div>
     <div class="header-right">
-      <div class="header-date" id="today-date"></div>
+      <time class="header-date" id="today-date" datetime=""></time>
     </div>
   </div>
 </header>
 
-<main class="main">
+<main class="main" role="main">
 
-  <div class="notice">
-    <span class="notice-icon">📢</span>
+  <div class="notice" role="alert" aria-live="polite">
+    <span class="notice-icon" aria-hidden="true">📢</span>
     <div class="notice-text">
       <strong>안내:</strong> 주간 교과시간표는 학년연구 일정에 따라 교과 변동 시 수정될 수 있습니다.
     </div>
   </div>
 
-  <div class="notice" id="setup-notice" style="display:none">
-    <span class="notice-icon">⚙️</span>
+  <div class="notice" id="setup-notice" style="display:none" role="alert" aria-live="polite">
+    <span class="notice-icon" aria-hidden="true">⚙️</span>
     <div class="notice-text">
       <strong>관리자 안내:</strong> 아래 <code>LINKS</code> 객체에 구글 스프레드시트 공유 링크를 붙여넣으면 카드가 활성화됩니다.
     </div>
   </div>
 
-  <section class="section">
+  <section class="section" aria-labelledby="timetable-title">
     <div class="section-header">
-      <div class="section-icon timetable">📋</div>
+      <div class="section-icon timetable" aria-hidden="true">📋</div>
       <div class="section-title-group">
-        <div class="section-title">주간 교과시간표</div>
+        <h2 class="section-title" id="timetable-title">주간 교과시간표</h2>
         <div class="section-desc">학년별 구글 스프레드시트 바로가기</div>
       </div>
     </div>
-    <div class="grade-grid" id="grade-grid"></div>
+    <nav class="grade-grid" id="grade-grid" aria-label="학년별 시간표 목록"></nav>
   </section>
 
-  <section class="section">
+  <section class="section" aria-labelledby="util-title">
     <div class="section-header">
-      <div class="section-icon util">📌</div>
+      <div class="section-icon util" aria-hidden="true">📌</div>
       <div class="section-title-group">
-        <div class="section-title">학교 운영</div>
+        <h2 class="section-title" id="util-title">학교 운영</h2>
         <div class="section-desc">일정 및 보결 안내</div>
       </div>
     </div>
-    <div class="util-grid" id="util-grid"></div>
+    <nav class="util-grid" id="util-grid" aria-label="학교 운영 자료 목록"></nav>
   </section>
 
 </main>
 
-<footer class="footer">
-  <div class="footer-divider"></div>
+<footer class="footer" role="contentinfo">
+  <div class="footer-divider" aria-hidden="true"></div>
   <div class="footer-text">
     남부초등학교 · 교과시간표 공유 시스템<br>
     만든이: 룰루랄라 한기쌤
   </div>
 </footer>
 
+<!-- 토스트 알림 -->
+<div id="toast" class="toast" role="alert" aria-live="polite" aria-atomic="true"></div>
+
+<!-- 로딩 오버레이 -->
+<div id="loading" class="loading-overlay" role="status" aria-label="로딩 중">
+  <div class="spinner"></div>
+</div>
+
 <script>
+/**
+ * 남부초등학교 시간표 시스템
+ *
+ * 주요 기능:
+ * - 학년별 시간표 구글 스프레드시트 링크 관리
+ * - URL 보안 검증
+ * - 접근성 향상 (ARIA, 키보드 네비게이션)
+ * - 사용자 피드백 (토스트 알림, 로딩 상태)
+ */
+
+// ========== 상수 정의 ==========
+
+/** 허용된 도메인 목록 (보안) */
+const ALLOWED_DOMAINS = [
+  'docs.google.com',
+  'drive.google.com'
+];
+
+/** 학년별 구글 스프레드시트 링크 */
 const LINKS = {
   grade1: 'https://docs.google.com/spreadsheets/d/1Sa_G4dUSWYSpkg_7UMUZgVBJV6cMcGCNF08zDCVqN90/edit?gid=1710844086#gid=1710844086',
   grade2: 'https://docs.google.com/spreadsheets/d/1G10buu-4dsMzSofQCLspHouEi1J1XM64/edit?usp=sharing&ouid=109116375597312884541&rtpof=true&sd=true',
@@ -581,75 +709,368 @@ const LINKS = {
   grade4: 'https://docs.google.com/spreadsheets/d/13PfluuXFcqrn24AwmNKDAA9QsSiNvtSP/edit?usp=sharing&ouid=109116375597312884541&rtpof=true&sd=true',
   grade5: 'https://docs.google.com/spreadsheets/d/1TJtTwmYP6wJN6Rxn7GcK_ZloSknmtbTm/edit?gid=1096679455#gid=1096679455',
   grade6: 'https://docs.google.com/spreadsheets/d/1SC-0Qa2xik_HxsB8lEN_q6v3k2kvSN_F/edit?usp=sharing&ouid=109116375597312884541&rtpof=true&sd=true',
-  master:     'https://docs.google.com/spreadsheets/d/1p4nXpR23e7xDDbVQ0Ls767_nBt9zR8OEiOvmWZ7unR4/edit?usp=sharing',
+  master: 'https://docs.google.com/spreadsheets/d/1p4nXpR23e7xDDbVQ0Ls767_nBt9zR8OEiOvmWZ7unR4/edit?usp=sharing',
 };
 
+/** 학년 정보 */
 const GRADES = [
-  { g:1, label:'1학년', cls:'1반', per:'5교시' },
-  { g:2, label:'2학년', cls:'2반', per:'5교시' },
-  { g:3, label:'3학년', cls:'2반', per:'6교시' },
-  { g:4, label:'4학년', cls:'2반', per:'6교시' },
-  { g:5, label:'5학년', cls:'2반', per:'6교시' },
-  { g:6, label:'6학년', cls:'2반', per:'6교시' },
+  { g: 1, label: '1학년', cls: '1반', per: '5교시' },
+  { g: 2, label: '2학년', cls: '2반', per: '5교시' },
+  { g: 3, label: '3학년', cls: '2반', per: '6교시' },
+  { g: 4, label: '4학년', cls: '2반', per: '6교시' },
+  { g: 5, label: '5학년', cls: '2반', per: '6교시' },
+  { g: 6, label: '6학년', cls: '2반', per: '6교시' },
 ];
 
-// 오늘 날짜
-const now = new Date();
-const dayNames = ['일','월','화','수','목','금','토'];
-document.getElementById('today-date').textContent =
-  `${now.getFullYear()}. ${now.getMonth()+1}. ${now.getDate()}. (${dayNames[now.getDay()]})`;
+/** 유틸리티 카드 정보 */
+const UTILS = [
+  {
+    key: 'master',
+    icon: '🎓',
+    iconCls: 'master',
+    title: '수석교사 수업',
+    desc: '수석교사 개인 수업 시간표'
+  },
+];
 
-// 학년 카드 생성
-const gradeGrid = document.getElementById('grade-grid');
-GRADES.forEach(g => {
-  const url = LINKS['grade' + g.g];
+/** 요일 이름 */
+const DAY_NAMES = ['일', '월', '화', '수', '목', '금', '토'];
+
+// ========== 유틸리티 함수 ==========
+
+/**
+ * URL 보안 검증
+ * @param {string} url - 검증할 URL
+ * @returns {boolean} 유효한 URL인지 여부
+ */
+function isValidUrl(url) {
+  if (!url || typeof url !== 'string') {
+    return false;
+  }
+
+  try {
+    const urlObj = new URL(url);
+
+    // HTTPS만 허용
+    if (urlObj.protocol !== 'https:') {
+      console.warn(`Invalid protocol: ${urlObj.protocol} for URL: ${url}`);
+      return false;
+    }
+
+    // 허용된 도메인만 허용
+    const isAllowedDomain = ALLOWED_DOMAINS.some(domain =>
+      urlObj.hostname === domain || urlObj.hostname.endsWith('.' + domain)
+    );
+
+    if (!isAllowedDomain) {
+      console.warn(`Unauthorized domain: ${urlObj.hostname} for URL: ${url}`);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error(`Invalid URL format: ${url}`, error);
+    return false;
+  }
+}
+
+/**
+ * 토스트 알림 표시
+ * @param {string} message - 메시지 내용
+ * @param {string} type - 알림 타입 ('success', 'error', 'warning', 'info')
+ * @param {number} duration - 표시 시간 (밀리초)
+ */
+function showToast(message, type = 'info', duration = 3000) {
+  const toast = document.getElementById('toast');
+  if (!toast) return;
+
+  // 아이콘 매핑
+  const icons = {
+    success: '✓',
+    error: '✕',
+    warning: '⚠',
+    info: 'ℹ'
+  };
+
+  // 토스트 내용 설정
+  toast.innerHTML = `<span>${icons[type] || icons.info}</span><span>${message}</span>`;
+  toast.className = `toast ${type}`;
+
+  // 표시
+  requestAnimationFrame(() => {
+    toast.classList.add('show');
+  });
+
+  // 자동 숨김
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, duration);
+}
+
+/**
+ * 로딩 오버레이 표시/숨김
+ * @param {boolean} show - 표시 여부
+ */
+function toggleLoading(show) {
+  const loading = document.getElementById('loading');
+  if (!loading) return;
+
+  if (show) {
+    loading.classList.add('show');
+  } else {
+    loading.classList.remove('show');
+  }
+}
+
+/**
+ * 안전한 외부 링크 열기
+ * @param {string} url - 열 URL
+ * @param {Event} event - 클릭 이벤트
+ */
+function openSafeLink(url, event) {
+  event.preventDefault();
+
+  // URL 유효성 검사
+  if (!isValidUrl(url)) {
+    showToast('유효하지 않은 링크입니다. 관리자에게 문의하세요.', 'error');
+    return;
+  }
+
+  try {
+    // 로딩 표시
+    toggleLoading(true);
+
+    // 새 창으로 안전하게 열기
+    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
+
+    if (!newWindow) {
+      showToast('팝업이 차단되었습니다. 팝업 차단을 해제해주세요.', 'warning');
+    }
+
+    // 로딩 숨김
+    setTimeout(() => toggleLoading(false), 500);
+  } catch (error) {
+    console.error('Link opening error:', error);
+    showToast('링크를 여는 중 오류가 발생했습니다.', 'error');
+    toggleLoading(false);
+  }
+}
+
+/**
+ * HTML 특수문자 이스케이프
+ * @param {string} text - 이스케이프할 텍스트
+ * @returns {string} 이스케이프된 텍스트
+ */
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+/**
+ * 오늘 날짜 포맷팅
+ * @returns {string} 포맷된 날짜 문자열
+ */
+function formatTodayDate() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const date = now.getDate();
+  const day = DAY_NAMES[now.getDay()];
+
+  return `${year}. ${month}. ${date}. (${day})`;
+}
+
+// ========== 카드 생성 함수 ==========
+
+/**
+ * 학년 카드 생성
+ * @param {Object} gradeInfo - 학년 정보 객체
+ * @returns {HTMLElement} 생성된 카드 엘리먼트
+ */
+function createGradeCard(gradeInfo) {
+  const { g, label, cls, per } = gradeInfo;
+  const url = LINKS['grade' + g];
+  const isValid = url && isValidUrl(url);
+
   const card = document.createElement('a');
-  card.className = 'grade-card' + (url ? '' : ' not-set');
-  card.dataset.g = g.g;
-  card.href = url || '#';
-  card.target = url ? '_blank' : '_self';
-  card.rel = 'noopener';
+  card.className = 'grade-card' + (isValid ? '' : ' not-set');
+  card.dataset.g = g;
+  card.href = isValid ? url : '#';
+
+  // 접근성 속성
+  card.setAttribute('role', 'link');
+  card.setAttribute('aria-label', `${label} 주간시간표 열기 - ${cls}, ${per}`);
+
+  if (isValid) {
+    card.setAttribute('tabindex', '0');
+    card.addEventListener('click', (e) => openSafeLink(url, e));
+
+    // 키보드 접근성
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openSafeLink(url, e);
+      }
+    });
+  } else {
+    card.setAttribute('aria-disabled', 'true');
+    card.setAttribute('tabindex', '-1');
+  }
+
+  // 안전한 HTML 생성
   card.innerHTML = `
     <div class="grade-top">
-      <div class="grade-num">${g.g}</div>
-      <div class="grade-badge">${g.per}</div>
+      <div class="grade-num">${escapeHtml(String(g))}</div>
+      <div class="grade-badge">${escapeHtml(per)}</div>
     </div>
-    <div class="grade-label">${g.label} 주간시간표</div>
+    <div class="grade-label">${escapeHtml(label)} 주간시간표</div>
     <div class="grade-meta">
-      <span>${g.cls}</span>
+      <span>${escapeHtml(cls)}</span>
       <span class="dot"></span>
-      <span>${g.per}</span>
+      <span>${escapeHtml(per)}</span>
       <span class="open-icon">→</span>
     </div>`;
-  gradeGrid.appendChild(card);
-});
 
-// 유틸 카드 생성
-const utilGrid = document.getElementById('util-grid');
-const utils = [
-  { key:'master', icon:'🎓', iconCls:'master', title:'수석교사 수업', desc:'수석교사 개인 수업 시간표' },
-];
-utils.forEach(u => {
-  const url = LINKS[u.key];
+  return card;
+}
+
+/**
+ * 유틸리티 카드 생성
+ * @param {Object} utilInfo - 유틸리티 정보 객체
+ * @returns {HTMLElement} 생성된 카드 엘리먼트
+ */
+function createUtilCard(utilInfo) {
+  const { key, icon, iconCls, title, desc } = utilInfo;
+  const url = LINKS[key];
+  const isValid = url && isValidUrl(url);
+
   const card = document.createElement('a');
-  card.className = 'util-card' + (url ? '' : ' not-set');
-  card.href = url || '#';
-  card.target = url ? '_blank' : '_self';
-  card.rel = 'noopener';
-  card.innerHTML = `
-    <div class="util-icon ${u.iconCls}">${u.icon}</div>
-    <div class="util-info">
-      <div class="util-title">${u.title}</div>
-      <div class="util-desc">${u.desc}</div>
-    </div>
-    <span class="open-icon">→</span>`;
-  utilGrid.appendChild(card);
-});
+  card.className = 'util-card' + (isValid ? '' : ' not-set');
+  card.href = isValid ? url : '#';
 
-// 미설정 링크 알림
-const hasEmpty = Object.values(LINKS).some(v => !v);
-if (hasEmpty) {
-  document.getElementById('setup-notice').style.display = 'flex';
+  // 접근성 속성
+  card.setAttribute('role', 'link');
+  card.setAttribute('aria-label', `${title} 열기 - ${desc}`);
+
+  if (isValid) {
+    card.setAttribute('tabindex', '0');
+    card.addEventListener('click', (e) => openSafeLink(url, e));
+
+    // 키보드 접근성
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openSafeLink(url, e);
+      }
+    });
+  } else {
+    card.setAttribute('aria-disabled', 'true');
+    card.setAttribute('tabindex', '-1');
+  }
+
+  // 안전한 HTML 생성
+  card.innerHTML = `
+    <div class="util-icon ${escapeHtml(iconCls)}" aria-hidden="true">${icon}</div>
+    <div class="util-info">
+      <div class="util-title">${escapeHtml(title)}</div>
+      <div class="util-desc">${escapeHtml(desc)}</div>
+    </div>
+    <span class="open-icon" aria-hidden="true">→</span>`;
+
+  return card;
+}
+
+// ========== 초기화 함수 ==========
+
+/**
+ * 앱 초기화
+ */
+function initApp() {
+  try {
+    // 오늘 날짜 표시
+    const todayDateEl = document.getElementById('today-date');
+    if (todayDateEl) {
+      todayDateEl.textContent = formatTodayDate();
+    }
+
+    // 학년 카드 생성
+    const gradeGrid = document.getElementById('grade-grid');
+    if (gradeGrid) {
+      GRADES.forEach(gradeInfo => {
+        const card = createGradeCard(gradeInfo);
+        gradeGrid.appendChild(card);
+      });
+    }
+
+    // 유틸 카드 생성
+    const utilGrid = document.getElementById('util-grid');
+    if (utilGrid) {
+      UTILS.forEach(utilInfo => {
+        const card = createUtilCard(utilInfo);
+        utilGrid.appendChild(card);
+      });
+    }
+
+    // 미설정 링크 알림 표시
+    checkUnsetLinks();
+
+    // URL 유효성 검사 결과 로그
+    validateAllLinks();
+
+  } catch (error) {
+    console.error('Initialization error:', error);
+    showToast('페이지 초기화 중 오류가 발생했습니다.', 'error');
+  }
+}
+
+/**
+ * 미설정 링크 확인 및 알림 표시
+ */
+function checkUnsetLinks() {
+  const hasEmpty = Object.values(LINKS).some(v => !v);
+  const setupNotice = document.getElementById('setup-notice');
+
+  if (setupNotice && hasEmpty) {
+    setupNotice.style.display = 'flex';
+  }
+}
+
+/**
+ * 모든 링크 유효성 검사
+ */
+function validateAllLinks() {
+  console.group('URL Validation Report');
+
+  let validCount = 0;
+  let invalidCount = 0;
+
+  Object.entries(LINKS).forEach(([key, url]) => {
+    if (url) {
+      if (isValidUrl(url)) {
+        console.log(`✓ ${key}: Valid`);
+        validCount++;
+      } else {
+        console.warn(`✕ ${key}: Invalid URL - ${url}`);
+        invalidCount++;
+      }
+    } else {
+      console.warn(`✕ ${key}: Empty URL`);
+      invalidCount++;
+    }
+  });
+
+  console.log(`\nSummary: ${validCount} valid, ${invalidCount} invalid`);
+  console.groupEnd();
+}
+
+// ========== 앱 시작 ==========
+
+// DOM이 준비되면 초기화
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initApp);
+} else {
+  initApp();
 }
 </script>
 </body>
