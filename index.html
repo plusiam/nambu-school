@@ -344,7 +344,7 @@ body {
 /* ── 유틸 카드 ── */
 .util-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 14px;
 }
 
@@ -570,6 +570,7 @@ body {
   .grade-card { padding: 18px 16px 16px; }
   .grade-num { font-size: 1.7rem; }
   .util-grid { grid-template-columns: 1fr; gap: 10px; }
+  .util-card { padding: 18px 16px; }
   .notice { flex-direction: column; gap: 6px; padding: 12px 16px; }
 }
 
@@ -608,7 +609,12 @@ body {
     border-color: var(--border);
   }
   .util-icon.master { background: rgba(139,92,246,0.1); }
+  .util-icon.hangi { background: rgba(236,72,153,0.1); }
+  .util-icon.guide { background: rgba(59,130,246,0.1); }
 }
+
+.util-icon.hangi { background: #FCE7F3; color: #BE185D; }
+.util-icon.guide { background: #DBEAFE; color: #1E40AF; }
 </style>
 </head>
 <body>
@@ -618,7 +624,7 @@ body {
     <div class="header-left">
       <div class="school-badge" aria-label="시스템 상태: 운영 중">학교 정보 공유 시스템</div>
       <h1 class="school-name">남부초등학교</h1>
-      <div class="school-sub">주간 교과시간표 · 수석교사 수업</div>
+      <div class="school-sub">주간 교과시간표 · 룰루랄라 한기쌤 코너</div>
     </div>
     <div class="header-right">
       <time class="header-date" id="today-date" datetime=""></time>
@@ -655,13 +661,13 @@ body {
 
   <section class="section" aria-labelledby="util-title">
     <div class="section-header">
-      <div class="section-icon util" aria-hidden="true">📌</div>
+      <div class="section-icon util" aria-hidden="true">✨</div>
       <div class="section-title-group">
-        <h2 class="section-title" id="util-title">학교 운영</h2>
-        <div class="section-desc">일정 및 보결 안내</div>
+        <h2 class="section-title" id="util-title">룰루랄라 한기쌤 코너</h2>
+        <div class="section-desc">수석교사 수업 및 교육 자료</div>
       </div>
     </div>
-    <nav class="util-grid" id="util-grid" aria-label="학교 운영 자료 목록"></nav>
+    <nav class="util-grid" id="util-grid" aria-label="룰루랄라 한기쌤 자료 목록"></nav>
   </section>
 
 </main>
@@ -698,7 +704,8 @@ body {
 /** 허용된 도메인 목록 (보안) */
 const ALLOWED_DOMAINS = [
   'docs.google.com',
-  'drive.google.com'
+  'drive.google.com',
+  'padlet.com'
 ];
 
 /** 학년별 구글 스프레드시트 링크 */
@@ -710,6 +717,8 @@ const LINKS = {
   grade5: 'https://docs.google.com/spreadsheets/d/1TJtTwmYP6wJN6Rxn7GcK_ZloSknmtbTm/edit?gid=1096679455#gid=1096679455',
   grade6: 'https://docs.google.com/spreadsheets/d/1SC-0Qa2xik_HxsB8lEN_q6v3k2kvSN_F/edit?usp=sharing&ouid=109116375597312884541&rtpof=true&sd=true',
   master: 'https://docs.google.com/spreadsheets/d/1p4nXpR23e7xDDbVQ0Ls767_nBt9zR8OEiOvmWZ7unR4/edit?usp=sharing',
+  hangi: 'https://padlet.com/yeohanki/2026-4v1zc44h70h4nskv',
+  guide: 'https://padlet.com/yeohanki/padlet-uvx3odz7eeoy1nab',
 };
 
 /** 학년 정보 */
@@ -730,6 +739,20 @@ const UTILS = [
     iconCls: 'master',
     title: '수석교사 수업',
     desc: '수석교사 개인 수업 시간표'
+  },
+  {
+    key: 'hangi',
+    icon: '✨',
+    iconCls: 'hangi',
+    title: '룰루랄라 한기쌤 수업',
+    desc: '수업 자료 및 활동 모음'
+  },
+  {
+    key: 'guide',
+    icon: '📚',
+    iconCls: 'guide',
+    title: '깊이 있는 수업 설계 가이드',
+    desc: '체계적인 수업 설계 방법론'
   },
 ];
 
